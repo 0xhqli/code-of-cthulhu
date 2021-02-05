@@ -1,6 +1,6 @@
 $(document).ready(function(){
     ScoreUpdate();
-    // Shuffle();
+    Shuffle();
 
     $('.btn-slice').click(function(){
         // console.log('Hi')
