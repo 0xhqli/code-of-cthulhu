@@ -1,6 +1,6 @@
 $(document).ready(function(){
     ScoreUpdate();
-    Shuffle();
+    // Shuffle();
 
     $('.btn-slice').click(function(){
         // console.log('Hi')
@@ -255,7 +255,7 @@ function double(current){
                 if(score>11){
                     firstclicked=false;
                     $('.card').fadeOut();
-                    $('#playSpace').html('<p id="WinText">Having found and removed the legions of Cthulhu.</p><p id="WinText">The world can rest easy for another evening.</p><p id="WinText">Ctlhulhu remains dreaming.</p>');
+                    $('#playSpace').html('<p id="WinText">Having found and removed the legions of Cthulhu. The world can rest easy for another evening. Ctlhulhu remains dreaming.</p>');
                 }
                 setTimeout(function(){
                     $(screwtimeout).attr('src', 'Blank.png');
@@ -325,14 +325,11 @@ setInterval(() => {
     if(timer<0&&firstclicked){
         firstclicked=false;
         $('.card').addClass('Back'); 
-        if(firstclicked){
-            firstclicked=false;
-            $('img').attr('src','Monsters/cthulhu/Cthulhu.jpg');
-            setTimeout(() => {
-                Cthulhu();
-            }, 2000);
-        }
+        $('img').attr('src','Monsters/cthulhu/Cthulhu.jpg');
+        setTimeout(() => {
+            Cthulhu();
+        }, 2000);
     }
     setTimeout(() => {
     }, 500);
-}, 1000); 
+}, 500); 
