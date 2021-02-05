@@ -105,7 +105,7 @@ let Deck=[
     },
     {
         name:"MouthDungeon",
-        src:"Monsters/Base/MouthDungeon.jpg",
+        src:"Monsters/Base/mouthDungeon.jpg",
         cardState:0,
     },
     {
@@ -170,7 +170,7 @@ let Deck=[
     },
     {
         name:"MouthDungeon",
-        src:"Monsters/Base/MouthDungeon.jpg",
+        src:"Monsters/Base/mouthDungeon.jpg",
         cardState:0,
     },
     {
