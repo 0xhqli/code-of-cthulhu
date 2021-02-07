@@ -29,17 +29,19 @@ $(document).ready(function(){
 
 function addListeners(){
     $('.card').click(function(){
-        justClicked=this;
+        let justClicked=this;
         // console.log('Hi')
         // console.log($(this).attr('pos'));
         // console.log(Deck[$(this).attr('pos')].name);
         // console.log(Deck[$(this).attr('pos')].src);
-        $(this).fadeOut(0);
-        setTimeout(function(){
-            $(justClicked).attr('src', Deck[$(justClicked).attr('pos')].src)
-        }, 10)
-        $(this).fadeIn(2000);
-        double(this);
+        if(Deck[$(justClicked).attr('pos')].cardState===0){
+            $(this).fadeOut(0);
+            setTimeout(function(){
+                $(justClicked).attr('src', Deck[$(justClicked).attr('pos')].src)
+            }, 10, justClicked)
+            $(this).fadeIn(2000);
+            double(this);
+        }
     })
 }
 
@@ -50,7 +52,6 @@ let timer=1200;
 let letterstotal=50;
 let letter=letterstotal;
 
-let justClicked;
 let firstclicked=false;
 let interval=Math.floor(timer/letter);
 
@@ -214,7 +215,6 @@ function ScoreUpdate(){
 // }
 
 let lastClicked=null;
-let screwtimeout,asycncausesissues;
 
 function Cthulhu(){
     setTimeout(function(){
@@ -240,6 +240,8 @@ function double(current){
         if($(current).attr('pos')!==$(lastClicked).attr('pos')){
             // console.log($(current).attr('pos'));
             // console.log($(lastClicked).attr('pos'));
+            let screwtimeout=lastClicked;
+            let asycncausesissues=current;
             if (Deck[$(current).attr('pos')].name === Deck[$(lastClicked).attr('pos')].name){
                 // console.log("they are the same");
                 if(Deck[$(current).attr('pos')].cardState===0){
@@ -262,7 +264,7 @@ function double(current){
                     $(asycncausesissues).attr('src', 'Blank.png');
                     $(screwtimeout).removeClass('Back'); 
                     $(asycncausesissues).removeClass('Back');
-                }, 1500)
+                }, 1500,screwtimeout,asycncausesissues)
                 // $(current).fadeIn(1000);
                 // $(lastClicked).fadeIn(1000);
                 // console.log($(current).attr('src'));
@@ -285,7 +287,7 @@ function double(current){
                 setTimeout(function(){
                     $(screwtimeout).attr('src', 'Cardback2.jpg');
                     $(asycncausesissues).attr('src', 'Cardback2.jpg');
-                }, 1500)
+                }, 1500,screwtimeout,asycncausesissues)
                 // $(current).fadeIn(1000);
                 // $(lastClicked).fadeIn(1000);
             }
@@ -293,10 +295,8 @@ function double(current){
                 setTimeout(function(){
                     $(screwtimeout).attr('src', 'Blank.png');
                     $(asycncausesissues).attr('src', 'Blank.png');
-                }, 1500)
+                }, 1500,screwtimeout,asycncausesissues)
             }
-            screwtimeout=lastClicked;
-            asycncausesissues=current;
             lastClicked=null;
         }
     }
@@ -309,18 +309,20 @@ function timerUpdate(){
         let elementhide=".timerhide"+(letterstotal-letter);
         $(elementhide).fadeOut(1000);
         $(element).fadeIn(1000);
-
-        //additional things to impliment. Time the fade in of each letter so it almost feels like they fade in one after another
     }
-    //impliment a way to have letters fade out if timer is higher again, maybe with some buffer room, like two letters or so
-    //add in another string to the timer to see if you could get it more accurate?
-    //Also, formulas for calculating interval currently only works really well with divisors of the timer. There may be a way to have it work with a better range of nums using some sort of rounding?
+    for(;(letter+2)*interval<timer;letter++){
+        let element=".timerhide"+(letterstotal-letter);
+        let elementhide=".timershow"+(letterstotal-letter);
+        $(elementhide).fadeOut(1000);
+        $(element).fadeIn(1000);
+    }
 }
 
 setInterval(() => {
-    if(firstclicked&&timer>-1)
+    if(firstclicked&&timer>-1){
         timer--;
         timerUpdate();
+    }
     console.log(timer);
     if(timer<0&&firstclicked){
         firstclicked=false;
